@@ -1,1 +1,1 @@
-python -m PyInstaller --onefile --icon=za.ico HackerZ-f.py
+python -m PyInstaller --onefile --icon=za.ico HackerZ-f_v.tv.py
