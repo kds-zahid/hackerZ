@@ -1,0 +1,1 @@
+python -m PyInstaller --onefile --icon=za.ico HackerZ-f.py
