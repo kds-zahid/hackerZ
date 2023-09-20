@@ -3,6 +3,10 @@ import tkinter as tk
 import random
 import tkinter.messagebox as msg
 import pandas as pd
+import time
+import ctypes
+
+time.sleep(2)
 
 abc="""
 ⠀⠀⠀⠀⠀⣠⣴⣶⣿⣿⠿⣷⣶⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣶⣷⠿⣿⣿⣶⣦⣀⠀⠀⠀⠀⠀
@@ -38,16 +42,20 @@ abc="""
 google_sheets_url = 'https://docs.google.com/spreadsheets/d/13IKBcN92SUDUdhqyzpQ8TW1PnQgOtHmVqZYbDGqVP4g/edit'  # Replace with your spreadsheet URL
 
 #image backlink
-imgbacklink="[url=https://www.latestdatabase.com/zh-CN/guatemala-phone-number-list/][img]http://zh-cn.chinaphonenumbers.com/wp-content/uploads/2023/09/Guatemala-Phone-Number-List.png[/img][/url]"
+dfimgbacklink = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
+imgbacklinkarray = dfimgbacklink['imagebacklink'].tolist()
+for imgrow in imgbacklinkarray:
+        imgbacklink=imgrow
 
 #keyword backlink
-keywordbacklink="[url=https://www.latestdatabase.com/zh-CN/guatemala-phone-number-list/]危地马拉电话号码表[/url]"
-
+dfkeywordbacklink = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
+keywordbacklinkarray = dfkeywordbacklink['keywordbacklink'].tolist()
+for keywordbacklinkrow in keywordbacklinkarray:
+    keywordbacklink=keywordbacklinkrow
 
 # usename
 dfusername = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
 usenamearray = dfusername['username'].tolist()
-
 
 # password
 dfpassword = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
@@ -63,14 +71,11 @@ tittlearray = dftittle.values.tolist()
 # convert to a single list
 tittlearray = sum(tittlearray,[])
 
-
 # text
 dftext = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=aztext'))
 textarray = dftext.values.tolist()
 # convert to a single list
 textarray=[item for sublist in textarray for item in sublist]
-
-
 
 # Define username
 def copy_username():
@@ -180,7 +185,6 @@ def copy_text():
     # Copy the tittle name to the clipboard
     root.clipboard_clear()
     root.clipboard_append(random_text)
-    print(random_text)
     # Display a message on the label
     label.config(text="Copied " + random_text)
 
@@ -193,6 +197,11 @@ def hide_text():
 def close_app():
     root.destroy()
 
+# Function to close the application
+def minimize_app():
+    root.iconify()
+
+
 # Create the root window
 root = tk.Tk()
 # Set the window title
@@ -204,7 +213,7 @@ root.geometry("300x200")
 # color 
 root.configure(bg="black")
 # Set the background color of the title bar to black
-root.wm_attributes("-topmost", 11)  # This line makes the title bar visible on some systems
+root.wm_attributes("-topmost", 5)  # This line makes the title bar visible on some systems
 root.wm_attributes("-fullscreen", True)  # This line allows minimizing and maximizing the window
 root.wm_attributes("-transparentcolor", "black")  # Set the transparent color to black
 
@@ -249,6 +258,11 @@ button.pack(pady=3,side='left')
 
 # close
 button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="x", command=close_app)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# minimize
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="-", command=minimize_app)
 # Place the button on the window
 button.pack(pady=3,side='left')
 
