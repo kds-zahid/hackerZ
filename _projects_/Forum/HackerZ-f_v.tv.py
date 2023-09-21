@@ -5,6 +5,9 @@ import tkinter.messagebox as msg
 import pandas as pd
 import time
 import ctypes
+import pyautogui
+import pyperclip
+from urllib.parse import urlparse
 
 time.sleep(2)
 
@@ -189,6 +192,55 @@ def copy_text():
     label.config(text="Copied " + random_text)
 
 
+# Define reg link
+def reg_text():
+    time.sleep(1)
+    pyautogui.hotkey("ctrl", "l")
+    pyautogui.hotkey("ctrl", "a")
+    pyautogui.hotkey("ctrl", "c")
+    forum_link=pyperclip.paste()
+    parse_forum_link=urlparse(forum_link)
+    forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
+    after_reg_link="/member.php?mod=register"
+    after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
+    after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
+    final_reg_link=forum_home_link+after_reg_link
+    pyautogui.typewrite(final_reg_link)
+    pyautogui.press('enter')
+
+# Define reg link
+def new_post_text():
+    time.sleep(1)
+    pyautogui.hotkey("ctrl", "l")
+    pyautogui.hotkey("ctrl", "a")
+    pyautogui.hotkey("ctrl", "c")
+    forum_link=pyperclip.paste()
+    parse_forum_link=urlparse(forum_link)
+    forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
+    after_reg_link="/member.php?mod=register"
+    after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
+    after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
+    final_new_post_link=forum_home_link+after_new_post_link
+    pyautogui.typewrite(final_new_post_link)
+    pyautogui.press('enter')
+
+# Define reg link
+def signature_text():
+    time.sleep(1)
+    pyautogui.hotkey("ctrl", "l")
+    pyautogui.hotkey("ctrl", "a")
+    pyautogui.hotkey("ctrl", "c")
+    forum_link=pyperclip.paste()
+    parse_forum_link=urlparse(forum_link)
+    forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
+    after_reg_link="/member.php?mod=register"
+    after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
+    after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
+    final_signature_link=forum_home_link+after_signature_link
+    pyautogui.typewrite(final_signature_link)
+    pyautogui.press('enter')
+
+
 # Define the function that copies a random tittle name to the clipboard
 def hide_text():
     label.config(text="")
@@ -253,6 +305,21 @@ button.pack(pady=3,side='left')
 
 # hide
 button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="hide", command=hide_text)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# reg
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="reg", command=reg_text)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# new post
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="np", command=new_post_text)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# signature
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="sg", command=signature_text)
 # Place the button on the window
 button.pack(pady=3,side='left')
 
