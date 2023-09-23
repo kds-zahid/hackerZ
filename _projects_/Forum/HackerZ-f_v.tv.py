@@ -56,6 +56,26 @@ keywordbacklinkarray = dfkeywordbacklink['keywordbacklink'].tolist()
 for keywordbacklinkrow in keywordbacklinkarray:
     keywordbacklink=keywordbacklinkrow
 
+#paragraph lenth
+dfparagraphlenth = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
+paragraphlentharray = dfparagraphlenth['pl'].tolist()
+for paragraphlenthrow in paragraphlentharray:
+    paragraph_lenght=paragraphlenthrow
+
+
+#first time sleep
+dftimesleep = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
+timesleeparray = dftimesleep['ft'].tolist()
+for timesleeprow in timesleeparray:
+    first_time_sleep=timesleeprow
+
+
+# process time sleep
+dfptimesleep = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
+ptimesleeparray = dfptimesleep['ts'].tolist()
+for ptimesleeprow in ptimesleeparray:
+    process_time_sleep=ptimesleeprow
+
 # usename
 dfusername = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azuser'))
 usenamearray = dfusername['username'].tolist()
@@ -129,7 +149,7 @@ def copy_text():
     paragraph22=[]
     paragraph3=[]
     # Number of sentences
-    num_sentences_in_paragraph = 10
+    num_sentences_in_paragraph = paragraph_lenght
     num_sentences_in_paragraphhalf = num_sentences_in_paragraph / 2
     
     # first paragraph
@@ -194,26 +214,30 @@ def copy_text():
 
 # Define reg link
 def reg_text():
-    time.sleep(1)
+    time.sleep(first_time_sleep)
     pyautogui.hotkey("ctrl", "l")
-    pyautogui.hotkey("ctrl", "a")
+    time.sleep(process_time_sleep)
     pyautogui.hotkey("ctrl", "c")
+    time.sleep(process_time_sleep)
     forum_link=pyperclip.paste()
     parse_forum_link=urlparse(forum_link)
     forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
     after_reg_link="/member.php?mod=register"
     after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
     after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
-    final_reg_link=forum_home_link+after_reg_link
+    final_reg_link=forum_home_link+after_reg_link    
+    time.sleep(process_time_sleep)
     pyautogui.typewrite(final_reg_link)
+    time.sleep(process_time_sleep)    
     pyautogui.press('enter')
 
 # Define reg link
 def new_post_text():
-    time.sleep(1)
+    time.sleep(first_time_sleep)
     pyautogui.hotkey("ctrl", "l")
-    pyautogui.hotkey("ctrl", "a")
+    time.sleep(process_time_sleep)
     pyautogui.hotkey("ctrl", "c")
+    time.sleep(process_time_sleep)
     forum_link=pyperclip.paste()
     parse_forum_link=urlparse(forum_link)
     forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
@@ -221,15 +245,18 @@ def new_post_text():
     after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
     after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
     final_new_post_link=forum_home_link+after_new_post_link
+    time.sleep(process_time_sleep)
     pyautogui.typewrite(final_new_post_link)
+    time.sleep(process_time_sleep)
     pyautogui.press('enter')
 
 # Define reg link
 def signature_text():
-    time.sleep(1)
+    time.sleep(first_time_sleep)
     pyautogui.hotkey("ctrl", "l")
-    pyautogui.hotkey("ctrl", "a")
+    time.sleep(process_time_sleep)
     pyautogui.hotkey("ctrl", "c")
+    time.sleep(process_time_sleep)
     forum_link=pyperclip.paste()
     parse_forum_link=urlparse(forum_link)
     forum_home_link=parse_forum_link.scheme + "://" + parse_forum_link.netloc
@@ -237,7 +264,9 @@ def signature_text():
     after_new_post_link="/forum.php?mod=post&action=newthread&fid=2"
     after_signature_link="/home.php?mod=spacecp&ac=profile&op=info"
     final_signature_link=forum_home_link+after_signature_link
+    time.sleep(process_time_sleep)
     pyautogui.typewrite(final_signature_link)
+    time.sleep(process_time_sleep)
     pyautogui.press('enter')
 
 
