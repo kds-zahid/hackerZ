@@ -1,0 +1,1 @@
+copy links without space or blank lines
