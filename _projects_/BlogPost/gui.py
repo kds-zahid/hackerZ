@@ -20,6 +20,18 @@ keywordsarray = dfimgbacklink['keyword'].tolist()
 dfbacklink = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=final_key'))
 backlinkarray = dfimgbacklink['backlink'].tolist()
 
+# Internal  keyword
+dfInternalKeyword = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azInternalBacklink'))
+InternalKeywordArray = dfInternalKeyword['internal_keyword'].tolist()
+for internal_keyword_row in InternalKeywordArray:
+    current_internal_keyword=internal_keyword_row
+
+# Internal  keyword
+dfinternal_backlink = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azInternalBacklink'))
+internal_backlinkArray = dfinternal_backlink['internal_backlink'].tolist()
+for internal_backlink_row in internal_backlinkArray:
+    current_internal_backlink=internal_backlink_row
+
 # tittle
 dftittle = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=aztittle'))
 tittlearray = dftittle.values.tolist()
@@ -109,8 +121,17 @@ def copy_text():
     paragraph21=[]
     paragraph22=[]
     paragraph3=[]
+    paragraph41=[]
+    paragraph42=[]
+
+    # keyword backlink
     keywordbacklink="<a href='"+current_backlink+"'>"+current_keyword+"</a>"
     imgbacklink=imglink
+    imgbacklink='<a href="'+current_backlink+'"><img class="alignnone size-medium wp-image-20935" src="'+imglink+'" alt="phone number list" width="300" height="197" /></a>'
+    # internal keyword backlink
+    internalKeywordBacklink="<a href='"+current_internal_backlink+"'>"+current_internal_keyword+"</a>"
+
+
     # Number of sentences
     num_sentences_in_paragraph = paragraph_lenght
     num_sentences_in_paragraphhalf = num_sentences_in_paragraph / 2
@@ -127,8 +148,7 @@ def copy_text():
 
     tittleh2="<h2>"+random.choice(tittlearray)+"</h2>"
     # Join the selected sentences into a single paragraph
-    tittleh2_text = ' '.join(tittleh2)
-    paragraphs.append(tittleh2_text)
+    paragraphs.append(tittleh2)
 
     # second paragraph 1st
     while len(paragraph21)<num_sentences_in_paragraphhalf:
@@ -152,17 +172,18 @@ def copy_text():
 
     # second paragraphs>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    # second paragraph img
-    # Join the selected sentences into a single paragraph
-    paragraph_text = imgbacklink
-    paragraphs.append(paragraph_text)
+    
 
     # third paragraph
     
     tittleh3="<h3>"+random.choice(tittlearray)+"</h3>"
+    # Join the selected sentences into a single paragraph    
+    paragraphs.append(tittleh3)
+
+    # third paragraph img
     # Join the selected sentences into a single paragraph
-    tittleh3_text = ' '.join(tittleh3)
-    paragraphs.append(tittleh3_text)
+    h3imgbacklink = imgbacklink
+    paragraphs.append(h3imgbacklink)
 
     while len(paragraph3)<num_sentences_in_paragraph:
         paragraph3.append(random.choice(textarray))
@@ -170,6 +191,38 @@ def copy_text():
     # Join the selected sentences into a single paragraph
     paragraph_text3 = ' '.join(paragraph3)
     paragraphs.append(paragraph_text3)
+
+
+
+    # Fourth paragraphs>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    tittleh4="<h4>"+random.choice(tittlearray)+"</h4>"
+    # Join the selected sentences into a single paragraph    
+    paragraphs.append(tittleh4) 
+
+
+    # fourth paragraph 1st
+    while len(paragraph41)<num_sentences_in_paragraphhalf:
+        paragraph41.append(random.choice(textarray))    
+    # Join the selected sentences into a single paragraph
+    paragraph_text4th1st = ' '.join(paragraph41)
+    
+    # second paragraph keyword backlink__________<<<<<<<<
+    # Join the selected sentences into a single paragraph
+    finalInternalkeywordbacklink = "假設您根據電子商務 "+internalKeywordBacklink+" 客戶的地理位置看到了"
+
+    # second paragraph 2nd
+    while len(paragraph42)<num_sentences_in_paragraphhalf:
+        paragraph42.append(random.choice(textarray))    
+    # Join the selected sentences into a single paragraph
+    paragraph_text4th2nd = ' '.join(paragraph42)
+
+    # final 2nd paragraph 
+    fourth_paragraph_text=paragraph_text4th1st + finalInternalkeywordbacklink + paragraph_text4th2nd
+    paragraphs.append(fourth_paragraph_text)
+
+    # second paragraphs>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 
     # Join the paragraphs with newlines
