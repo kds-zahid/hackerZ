@@ -26,11 +26,30 @@ InternalKeywordArray = dfInternalKeyword['internal_keyword'].tolist()
 for internal_keyword_row in InternalKeywordArray:
     current_internal_keyword=internal_keyword_row
 
-# Internal  keyword
+# Internal  backlink
 dfinternal_backlink = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azInternalBacklink'))
 internal_backlinkArray = dfinternal_backlink['internal_backlink'].tolist()
 for internal_backlink_row in internal_backlinkArray:
     current_internal_backlink=internal_backlink_row
+
+# tag 
+df_tag = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=aztag'))
+array_tag = df_tag['final_tag'].tolist()
+for row_tag in array_tag:
+    final_tag=row_tag
+
+# category 
+df_category = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azcategory'))
+array_category = df_category['final_category'].tolist()
+for row_category in array_category:
+    final_category=row_category
+
+# slug 
+df_slug = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=azslug'))
+array_slug= df_slug.values.tolist()
+array_slug= sum(array_slug,[])
+
+
 
 # tittle
 dftittle = pd.read_csv(google_sheets_url.replace('/edit', '/gviz/tq?tqx=out:csv&sheet=aztittle'))
@@ -87,9 +106,10 @@ def update_label(index):
         global current_backlink
         current_backlink = backlinkarray[index]
         label0.config(text= current_keyword)
+        label.config(text=current_backlink)
         
     else:
-        label.config(text="Invalid Index")
+        label0.config(text="Invalid Index")
 
 def h1button_c():
     pyperclip.copy(current_keyword)
@@ -102,14 +122,16 @@ def h2button_c():
 
 
 # Define the function that copies a random tittle name to the clipboard
+
 def copy_tittle():
-    # Choose a random tittle name from the list
+    global random_tittle
+    # Choose a random tittle name from the list    
     random_tittle = random.choice(tittlearray)
     # Copy the tittle name to the clipboard
     root.clipboard_clear()
     root.clipboard_append(random_tittle)
     # Display a message on the label
-    label.config(text="Copied " + random_tittle)
+    label.config(text=random_tittle)
 
 
 
@@ -236,9 +258,53 @@ def copy_text():
     root.clipboard_clear()
     root.clipboard_append(random_text)
     # Display a message on the label
-    label.config(text="Copied " + random_text)
+    label.config(text=random_text)
+
+def copy_tag():
+    final_tag_all=current_keyword+", "+final_tag
+
+    root.clipboard_clear()
+    root.clipboard_append(final_tag_all)
+    label.config(text=final_tag_all)
 
 
+def copy_category():
+    root.clipboard_clear()
+    root.clipboard_append(final_category)
+    label.config(text=final_category)
+
+
+def copy_focus():
+    focus_k=random_tittle
+    
+    words_fk = focus_k.split()
+    final_focus_k = ' '.join(words_fk[:4])
+    root.clipboard_clear()
+    root.clipboard_append(final_focus_k)
+    label.config(text=final_focus_k)
+
+def copy_seo_tittle():
+    seo_tittle=random_tittle+" | "+current_internal_keyword
+    root.clipboard_clear()
+    root.clipboard_append(seo_tittle)
+    label.config(text=seo_tittle)
+
+def copy_meta_d():
+    metaD=random_tittle+" "+current_internal_keyword+" "+random.choice(textarray)+" "+random.choice(textarray)+" "+random.choice(textarray)
+    root.clipboard_clear()
+    root.clipboard_append(metaD)
+    label.config(text=metaD)
+
+
+def copy_slug():  
+    random_slug = random.choice(array_slug)
+    words = random_slug.split()
+    slug = ' '.join(words[:4])
+    # Copy the tittle name to the clipboard
+    root.clipboard_clear()
+    root.clipboard_append(slug)
+    # Display a message on the label
+    label.config(text=slug)
 
 
 
@@ -259,29 +325,45 @@ def minimize_app():
 
 # Create a Tkinter root
 root = tk.Tk()
+root.title("HackerZ")
 root.geometry("800x800")
+# Disable window resizing (maximizing and resizing)
+#root.resizable(False, False)
+# color 
+root.configure(bg="black")
+# Set the background color of the title bar to black
+root.wm_attributes("-topmost", 5)  # This line makes the title bar visible on some systems
+root.wm_attributes("-fullscreen", True)  # This line allows minimizing and maximizing the window
+root.wm_attributes("-transparentcolor", "black")  # Set the transparent color to black
+
+
+
+
+# frame padding
+framepad=tk.Frame(root, bg="black", height=100)
+framepad.pack(side="top", fill="both",)
 
 # frame 0
 frame=tk.Frame(root, bg="black")
-frame.pack( padx=100, pady=100, side="top",fill="both")
+frame.pack( side="top",fill="both")
 
 
 # Create a "Previous" button widget
-previous_button = tk.Button(frame, text="<<", command=previous_click)
+previous_button = tk.Button(frame, text="<<", command=previous_click , bg="#252526", fg="white",)
 
 # Create a "Next" button widget
-next_button = tk.Button(frame, text=">>", command=next_click)
+next_button = tk.Button(frame, text=">>", command=next_click , bg="#252526", fg="white",)
 
 # Create a slider widget
-scale = tk.Scale(frame, from_=0, to=len(keywordsarray) - 1, orient="horizontal", label="keyword Index")
+scale = tk.Scale(frame, from_=0, to=len(keywordsarray) - 1, orient="horizontal", bg="#252526", fg="red",)
 
 # Create a label widget to display the keyword name
 
-label0 = tk.Label(frame, text="Selected keyword: ")
+label0 = tk.Label(frame, text="Selected keyword: " , bg="#252526", fg="white",)
 
-h1button=tk.Button(frame, text="Tittle" , command=h1button_c)
+h1button=tk.Button(frame, text="Tittle" , command=h1button_c , bg="#252526", fg="white",)
 
-h2button=tk.Button(frame, text="link" , command=h2button_c)
+h2button=tk.Button(frame, text="link" , command=h2button_c , bg="#252526", fg="white",)
 
 
 # Pack the buttons, slider, and label into the root
@@ -289,8 +371,8 @@ previous_button.pack(side='left')
 scale.pack(side='left')
 next_button.pack(side='left')
 label0.pack(side='left')
-h1button.pack(side='left')
-h2button.pack(side='left')
+#h2button.pack(side='left')
+#h1button.pack(side='left')
 
 # Bind the slider change event to the function
 scale.bind("<Motion>", slider_changed)
@@ -302,7 +384,7 @@ scale.bind("<Motion>", slider_changed)
 
 # frame 1
 frame1=tk.Frame(root, bg="black")
-frame1.pack( padx=100, pady=100, side="top",fill="both")
+frame1.pack(side="top",fill="both")
 
 
 
@@ -313,18 +395,39 @@ button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  widt
 button.pack(pady=3,side="left")
 
 # Create a button that calls the username function when clicked
-button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="text", command=copy_text)
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Text", command=copy_text)
 # Place the button on the window
 button.pack(pady=3,side='left')
 
 
 # Create a button that calls the username function when clicked
-button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="tag", )
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Tag", command=copy_tag)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+
+# Create a button that calls the username function when clicked
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Category", command=copy_category)
 # Place the button on the window
 button.pack(pady=3,side='left')
 
 # Create a button that calls the username function when clicked
-button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="category", )
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Focus", command=copy_focus)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# Create a button that calls the username function when clicked
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="SEO Tittle", command=copy_seo_tittle)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# Create a button that calls the username function when clicked
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Slug", command=copy_slug)
+# Place the button on the window
+button.pack(pady=3,side='left')
+
+# Create a button that calls the username function when clicked
+button = tk.Button(frame1, bg="#252526", fg="white", highlightthickness=0,  width=10, text="Meta", command=copy_meta_d)
 # Place the button on the window
 button.pack(pady=3,side='left')
 
